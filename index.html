@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>부민병원 안전보건관리 시스템</title>
+<meta name="theme-color" content="#1B2A4A">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="안전보건">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="apple-touch-icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' rx='40' fill='%231B2A4A'/><text x='90' y='118' text-anchor='middle' font-size='90' fill='%234C6EF5'>🏥</text></svg>">
+<link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%231B2A4A'/><text x='32' y='44' text-anchor='middle' font-size='34' fill='%234C6EF5'>🏥</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#1B2A4A;--blue:#3B5BDB;--blue-light:#4C6EF5;--blue-pale:#EEF2FF;
+  --green:#2F9E44;--green-pale:#EBFBEE;--amber:#E67700;--amber-pale:#FFF9DB;
+  --red:#C92A2A;--red-pale:#FFF5F5;
+  --gray-900:#1a1a2e;--gray-700:#374151;--gray-500:#6B7280;
+  --gray-400:#9CA3AF;--gray-200:#E5E7EB;--gray-100:#F3F4F6;--gray-50:#F9FAFB;
+  --white:#FFFFFF;--border:#E5E7EB;
+  --radius:8px;--radius-lg:12px;
+  --shadow:0 1px 3px rgba(0,0,0,0.08);--shadow-md:0 4px 16px rgba(0,0,0,0.10);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+body{font-family:'Noto Sans KR',sans-serif;background:#F0F2F8;color:var(--gray-900);font-size:14px;min-height:100vh;}
+
+/* 통합 상단 네비게이션 */
+.topbar{background:var(--navy);height:54px;padding:0 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,0.25);}
+.brand{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;}
+.brand-logo{width:32px;height:32px;background:var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;}
+.brand-text{font-size:15px;font-weight:700;color:#fff;}
+.brand-sub{color:rgba(255,255,255,0.55);font-size:11px;margin-left:6px;}
+
+.navbar{background:var(--white);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 20px;position:sticky;top:54px;z-index:90;box-shadow:var(--shadow);overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.navbar::-webkit-scrollbar{display:none;}
+.navtab{padding:13px 18px;font-size:13px;font-weight:500;color:var(--gray-500);text-decoration:none;border-bottom:3px solid transparent;white-space:nowrap;display:flex;align-items:center;gap:6px;transition:all .15s;}
+.navtab:hover{color:var(--gray-900);background:var(--gray-50);}
+.navtab.active{color:var(--blue);border-bottom-color:var(--blue);font-weight:600;}
+.navtab .icon{font-size:15px;}
+
+/* 메인 영역 */
+.main{max-width:980px;margin:0 auto;padding:24px 16px 60px;}
+.hero{margin-bottom:20px;padding:6px 4px;}
+.hero h1{font-size:22px;font-weight:800;color:var(--navy);margin-bottom:6px;letter-spacing:-0.3px;}
+.hero p{font-size:13px;color:var(--gray-500);line-height:1.6;}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;}
+.card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;box-shadow:var(--shadow);text-decoration:none;color:inherit;transition:all .18s;display:flex;flex-direction:column;position:relative;overflow:hidden;}
+.card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md);border-color:var(--blue-light);}
+.card-icon{width:48px;height:48px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:12px;}
+.card-icon.blue{background:var(--blue-pale);}
+.card-icon.amber{background:var(--amber-pale);}
+.card-icon.green{background:var(--green-pale);}
+.card-title{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:4px;}
+.card-sub{font-size:12px;color:var(--gray-500);margin-bottom:14px;line-height:1.55;}
+.card-meta{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;}
+.tag{font-size:11px;font-weight:500;padding:3px 9px;border-radius:20px;background:var(--gray-100);color:var(--gray-700);}
+.tag.b{background:var(--blue-pale);color:var(--blue);}
+.tag.g{background:var(--green-pale);color:var(--green);}
+.tag.a{background:var(--amber-pale);color:var(--amber);}
+.card-cta{margin-top:auto;display:flex;align-items:center;justify-content:space-between;padding-top:12px;border-top:1px solid var(--gray-100);font-size:13px;font-weight:600;color:var(--blue);}
+.card-cta .arrow{transition:transform .2s;}
+.card:hover .card-cta .arrow{transform:translateX(4px);}
+
+.coming-soon{opacity:0.55;cursor:default;}
+.coming-soon:hover{transform:none;box-shadow:var(--shadow);border-color:var(--border);}
+.coming-soon .card-cta{color:var(--gray-400);}
+.coming-badge{position:absolute;top:14px;right:14px;font-size:10px;font-weight:600;background:var(--gray-100);color:var(--gray-500);padding:3px 9px;border-radius:20px;}
+
+/* 통계 영역 */
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:24px 0 8px;}
+.stat-box{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;box-shadow:var(--shadow);}
+.stat-box-lbl{font-size:10px;color:var(--gray-400);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;}
+.stat-box-val{font-size:22px;font-weight:800;color:var(--navy);}
+.stat-box-val.b{color:var(--blue);}
+.stat-box-val.g{color:var(--green);}
+.stat-box-val.a{color:var(--amber);}
+
+.footer{margin-top:30px;padding-top:20px;border-top:1px solid var(--gray-200);color:var(--gray-400);font-size:11px;text-align:center;line-height:1.6;}
+
+@media (max-width:600px){
+  .topbar{padding:0 12px;height:50px;}
+  .brand-text{font-size:13px;}
+  .brand-sub{display:none;}
+  .navbar{padding:0 8px;top:50px;}
+  .navtab{padding:11px 10px;font-size:12px;}
+  .main{padding:16px 12px 40px;}
+  .hero h1{font-size:18px;}
+  .hero p{font-size:12px;}
+  .cards{grid-template-columns:1fr;gap:10px;}
+  .card{padding:16px;}
+  .card-icon{width:42px;height:42px;font-size:21px;}
+  .card-title{font-size:15px;}
+  .stat-grid{grid-template-columns:repeat(2,1fr);}
+}
+</style>
+</head>
+<body>
+
+<!-- 1단: 부민병원 브랜드 헤더 -->
+<header class="topbar">
+  <a href="index.html" class="brand">
+    <div class="brand-logo">🏥</div>
+    <span class="brand-text">부민병원 안전보건관리</span>
+    <span class="brand-sub">Safety & Health</span>
+  </a>
+</header>
+
+<!-- 2단: 점검표 종류 네비게이션 -->
+<nav class="navbar">
+  <a href="index.html" class="navtab active"><span class="icon">🏠</span>홈</a>
+  <a href="round.html" class="navtab"><span class="icon">📋</span>작업장 순회 점검</a>
+  <a href="ventilation.html" class="navtab"><span class="icon">💨</span>국소배기 자체검사</a>
+</nav>
+
+<div class="main">
+
+  <div class="hero">
+    <h1>부민병원 안전보건관리 시스템</h1>
+    <p>의료기관 산업안전보건법 기반 자체 점검·검사 통합 플랫폼. 점검표를 선택하면 모바일·PC 어디서나 작성·서명·제출이 가능합니다.</p>
+  </div>
+
+  <!-- 통계 (실제 작동: localStorage 기반) -->
+  <div class="stat-grid" id="statGrid"></div>
+
+  <!-- 점검표 카드 -->
+  <div class="cards">
+
+    <a href="round.html" class="card">
+      <div class="card-icon blue">📋</div>
+      <div class="card-title">작업장 순회 점검표</div>
+      <div class="card-sub">의료기관 작업환경·기계기구·유해위험물 점검. 부서별 보호구 항목 자동 적용.</div>
+      <div class="card-meta">
+        <span class="tag b">11개 부서</span>
+        <span class="tag">정기점검</span>
+        <span class="tag g">양호/개선/미해당</span>
+      </div>
+      <div class="card-cta"><span>점검 시작하기</span><span class="arrow">→</span></div>
+    </a>
+
+    <a href="ventilation.html" class="card">
+      <div class="card-icon amber">💨</div>
+      <div class="card-title">국소배기장치 자체검사</div>
+      <div class="card-sub">후드 풍속 측정·평균 자동 계산·기준치(0.4 m/s) 자동 판정. 부서별 후드 개수 동적 적용.</div>
+      <div class="card-meta">
+        <span class="tag b">5개 부서</span>
+        <span class="tag a">풍속 측정</span>
+        <span class="tag g">6단계 결과</span>
+      </div>
+      <div class="card-cta"><span>검사 시작하기</span><span class="arrow">→</span></div>
+    </a>
+
+    <div class="card coming-soon">
+      <span class="coming-badge">예정</span>
+      <div class="card-icon green">🔥</div>
+      <div class="card-title">소방·화재 예방 점검</div>
+      <div class="card-sub">소화기·비상구·피난로 점검 및 분기 보고서 자동 생성</div>
+      <div class="card-meta"><span class="tag">개발 예정</span></div>
+      <div class="card-cta"><span>준비 중</span><span>·</span></div>
+    </div>
+
+    <div class="card coming-soon">
+      <span class="coming-badge">예정</span>
+      <div class="card-icon green">🧪</div>
+      <div class="card-title">MSDS 관리 시스템</div>
+      <div class="card-sub">화학물질 안전보건자료 관리 및 게시 현황 점검</div>
+      <div class="card-meta"><span class="tag">연동 예정</span></div>
+      <div class="card-cta"><span>준비 중</span><span>·</span></div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    부민병원 안전보건관리 시스템 · 기획경영팀<br>
+    산업안전보건법 제36조(위험성평가) · 제125조(작업환경측정) 근거
+  </div>
+
+</div>
+
+<script>
+// 점검 이력 통계 (각 시스템의 localStorage 데이터 합산)
+function renderStats(){
+  var totalRound = 0, totalVent = 0, recentDate = '';
+  try{
+    var r1 = JSON.parse(localStorage.getItem('wsi_records')||'[]');
+    totalRound = r1.length;
+    if(r1[0] && r1[0].date) recentDate = r1[0].date;
+  }catch(e){}
+  try{
+    var r2 = JSON.parse(localStorage.getItem('vent_records')||'[]');
+    totalVent = r2.length;
+    if(r2[0] && r2[0].date && r2[0].date > recentDate) recentDate = r2[0].date;
+  }catch(e){}
+
+  var total = totalRound + totalVent;
+  document.getElementById('statGrid').innerHTML =
+    '<div class="stat-box"><div class="stat-box-lbl">총 점검·검사</div><div class="stat-box-val b">' + total + '</div></div>'
+  + '<div class="stat-box"><div class="stat-box-lbl">작업장 순회</div><div class="stat-box-val">' + totalRound + '</div></div>'
+  + '<div class="stat-box"><div class="stat-box-lbl">국소배기 검사</div><div class="stat-box-val a">' + totalVent + '</div></div>'
+  + '<div class="stat-box"><div class="stat-box-lbl">최근 점검일</div><div class="stat-box-val" style="font-size:14px;padding-top:6px;">' + (recentDate || '—') + '</div></div>';
+}
+renderStats();
+</script>
+
+</body>
+</html>
