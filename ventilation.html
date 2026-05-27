@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>국소배기장치 자체검사 | 부민병원</title>
+
+<meta name="theme-color" content="#1B2A4A">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="배기점검">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<link rel="apple-touch-icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' rx='40' fill='%231B2A4A'/><text x='90' y='118' text-anchor='middle' font-size='80' fill='%234C6EF5'>💨</text></svg>">
+<link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%231B2A4A'/><text x='32' y='44' text-anchor='middle' font-size='32' fill='%234C6EF5'>💨</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<style>
+:root {
+  --navy:#1B2A4A; --blue:#3B5BDB; --blue-light:#4C6EF5; --blue-pale:#EEF2FF;
+  --green:#2F9E44; --green-pale:#EBFBEE; --amber:#E67700; --amber-pale:#FFF9DB;
+  --red:#C92A2A; --red-pale:#FFF5F5;
+  --gray-900:#1a1a2e; --gray-700:#374151; --gray-500:#6B7280;
+  --gray-400:#9CA3AF; --gray-200:#E5E7EB; --gray-100:#F3F4F6; --gray-50:#F9FAFB;
+  --white:#FFFFFF; --border:#E5E7EB;
+  --radius:8px; --radius-lg:12px;
+  --shadow:0 1px 3px rgba(0,0,0,0.08); --shadow-md:0 4px 16px rgba(0,0,0,0.10);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+body{font-family:'Noto Sans KR',sans-serif;background:#F0F2F8;color:var(--gray-900);font-size:14px;min-height:100vh;padding-bottom:env(safe-area-inset-bottom);}
+input,select,button,textarea{font-size:16px;font-family:'Noto Sans KR',sans-serif;}
+
+.navbar-top{background:var(--white);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 20px;position:sticky;top:0;z-index:110;box-shadow:0 1px 4px rgba(0,0,0,0.06);overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.navbar-top::-webkit-scrollbar{display:none;}
+.navtab-link{padding:11px 14px;font-size:12.5px;font-weight:500;color:var(--gray-500);text-decoration:none;border-bottom:3px solid transparent;white-space:nowrap;display:flex;align-items:center;gap:5px;transition:all .15s;}
+.navtab-link:hover{color:var(--gray-900);background:var(--gray-50);}
+.navtab-link.active{color:var(--blue);border-bottom-color:var(--blue);font-weight:600;}
+
+.header{background:var(--navy);padding:0 20px;height:54px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:42px;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,0.25);}
+.header-left{display:flex;align-items:center;gap:10px;}
+.header-logo{width:32px;height:32px;background:var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;}
+.header-title{color:#fff;font-size:15px;font-weight:600;}
+.header-sub{color:rgba(255,255,255,0.5);font-size:11px;margin-left:6px;}
+.dept-select{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#fff;border-radius:6px;padding:6px 10px;font-size:13px;font-family:'Noto Sans KR',sans-serif;cursor:pointer;outline:none;}
+.dept-select option{background:var(--navy);}
+
+.tabs{background:var(--white);border-bottom:1px solid var(--border);display:flex;padding:0 20px;position:sticky;top:96px;z-index:90;box-shadow:var(--shadow);}
+.tab{padding:12px 16px;font-size:13px;font-weight:500;color:var(--gray-500);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.15s;}
+.tab.active{color:var(--blue);border-bottom-color:var(--blue);}
+.tab:hover:not(.active){color:var(--gray-700);}
+
+.main{max-width:860px;margin:0 auto;padding:20px 16px 80px;}
+
+.meta-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px;}
+.meta-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:10px 14px;box-shadow:var(--shadow);}
+.meta-label{font-size:10px;font-weight:600;color:var(--gray-400);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:4px;}
+.meta-card input{width:100%;border:none;outline:none;font-size:13px;font-weight:500;font-family:'Noto Sans KR',sans-serif;color:var(--gray-900);background:transparent;}
+
+.hood-type-row{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:10px 14px;margin-bottom:14px;box-shadow:var(--shadow);display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.hood-type-label{font-size:10px;font-weight:600;color:var(--gray-400);text-transform:uppercase;letter-spacing:0.8px;}
+.hood-type-opts{display:flex;gap:6px;flex-wrap:wrap;}
+.hood-type-opt{padding:5px 12px;font-size:12px;border-radius:20px;border:1px solid var(--border);background:var(--gray-50);color:var(--gray-500);cursor:pointer;font-family:'Noto Sans KR',sans-serif;}
+.hood-type-opt.sel{background:var(--blue-pale);border-color:var(--blue);color:var(--blue);font-weight:600;}
+
+.section{margin-bottom:12px;}
+.section-header{display:flex;align-items:center;gap:8px;padding:9px 14px;background:var(--navy);color:#fff;font-size:12px;font-weight:600;letter-spacing:0.5px;border-radius:var(--radius) var(--radius) 0 0;}
+.check-wrap{background:var(--white);border:1px solid var(--border);border-top:none;border-radius:0 0 var(--radius) var(--radius);overflow:hidden;box-shadow:var(--shadow);}
+.check-row{display:grid;grid-template-columns:1fr 320px 1fr;border-bottom:1px solid var(--gray-100);transition:background 0.1s;}
+.check-row:last-child{border-bottom:none;}
+.check-row:hover{background:var(--gray-50);}
+.check-q{padding:10px 14px;font-size:12.5px;color:var(--gray-700);line-height:1.5;display:flex;flex-direction:column;justify-content:center;}
+.check-q .qname{font-weight:600;color:var(--gray-900);font-size:13px;margin-bottom:2px;}
+.check-q .qdesc{font-size:11.5px;color:var(--gray-500);}
+.check-btns{padding:8px 10px;display:grid;grid-template-columns:repeat(6,1fr);gap:3px;border-left:1px solid var(--gray-100);border-right:1px solid var(--gray-100);align-items:center;}
+.cbtn{padding:6px 2px;font-size:11px;font-weight:500;border-radius:6px;border:1px solid var(--border);cursor:pointer;background:var(--gray-50);color:var(--gray-500);font-family:'Noto Sans KR',sans-serif;text-align:center;line-height:1.2;transition:all 0.12s;}
+.cbtn .sym{display:block;font-size:13px;font-weight:700;line-height:1;}
+.cbtn .lab{display:block;font-size:9.5px;margin-top:1px;}
+.cbtn.good.sel{background:var(--green-pale);border-color:var(--green);color:var(--green);}
+.cbtn.adjust.sel,.cbtn.replace.sel,.cbtn.remake.sel{background:var(--amber-pale);border-color:var(--amber);color:var(--amber);}
+.cbtn.discard.sel{background:var(--red-pale);border-color:var(--red);color:var(--red);}
+.cbtn.na.sel{background:var(--gray-100);border-color:var(--gray-500);color:var(--gray-700);}
+.check-note{padding:8px 10px;display:flex;align-items:center;}
+.check-note input{width:100%;border:1px solid transparent;border-radius:6px;padding:6px 8px;font-size:12px;font-family:'Noto Sans KR',sans-serif;color:var(--gray-700);background:transparent;outline:none;transition:all 0.12s;}
+.check-note input:focus{border-color:var(--blue-light);background:var(--blue-pale);}
+.check-note input::placeholder{color:var(--gray-400);}
+
+.velo-section{margin-bottom:12px;}
+.velo-wrap{background:var(--white);border:1px solid var(--border);border-top:none;border-radius:0 0 var(--radius) var(--radius);padding:14px;box-shadow:var(--shadow);}
+.velo-criteria{font-size:11.5px;color:var(--gray-500);background:var(--blue-pale);border-left:3px solid var(--blue);padding:7px 12px;border-radius:4px;margin-bottom:14px;}
+.velo-criteria b{color:var(--navy);}
+.hood-card{border:1px solid var(--border);border-radius:var(--radius);padding:12px;margin-bottom:10px;background:var(--gray-50);}
+.hood-card:last-child{margin-bottom:0;}
+.hood-card-title{font-size:13px;font-weight:600;color:var(--navy);margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.hood-card-title .badge-num{background:var(--blue);color:#fff;width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;}
+.velo-grid{display:grid;grid-template-columns:60px repeat(3,1fr);gap:6px;align-items:center;font-size:12px;}
+.velo-grid-head{font-weight:600;color:var(--gray-500);font-size:10.5px;text-align:center;padding:4px;background:var(--white);border-radius:4px;}
+.velo-pos{font-weight:600;color:var(--gray-700);font-size:12px;text-align:center;background:var(--white);padding:6px;border-radius:4px;}
+.velo-input{width:100%;padding:8px 6px;border:1px solid var(--border);border-radius:6px;text-align:center;font-size:14px;font-family:'Noto Sans KR',sans-serif;background:var(--white);outline:none;}
+.velo-input:focus{border-color:var(--blue);background:var(--blue-pale);}
+.hood-actions{display:flex;gap:8px;margin-top:10px;}
+.hood-action-btn{flex:1;padding:10px;border-radius:var(--radius);border:1px dashed var(--gray-400);background:var(--white);color:var(--gray-700);font-size:13px;font-weight:600;cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:all .12s;}
+.hood-action-btn:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-pale);}
+.hood-action-btn.danger:hover{border-color:var(--red);color:var(--red);background:var(--red-pale);}
+.hood-action-btn:disabled{opacity:0.4;cursor:not-allowed;}
+.velo-avg{margin-top:10px;padding:10px 12px;border-radius:6px;display:flex;justify-content:space-between;align-items:center;background:var(--white);border:1.5px solid var(--border);}
+.velo-avg-label{font-size:12px;font-weight:600;color:var(--gray-700);}
+.velo-avg-value{font-size:18px;font-weight:700;font-family:'Noto Sans KR',sans-serif;}
+.velo-avg.pass{border-color:var(--green);background:var(--green-pale);}
+.velo-avg.pass .velo-avg-value{color:var(--green);}
+.velo-avg.fail{border-color:var(--red);background:var(--red-pale);}
+.velo-avg.fail .velo-avg-value{color:var(--red);}
+.velo-avg-note{font-size:10.5px;color:var(--gray-500);margin-left:6px;}
+
+.opinion-section{background:var(--white);border:1px solid var(--border);border-top:none;border-radius:0 0 var(--radius) var(--radius);padding:14px;box-shadow:var(--shadow);}
+.opinion-section textarea{width:100%;min-height:80px;border:1px solid var(--border);border-radius:6px;padding:10px;font-size:13px;font-family:'Noto Sans KR',sans-serif;color:var(--gray-900);background:var(--gray-50);outline:none;resize:vertical;line-height:1.5;}
+.opinion-section textarea:focus{border-color:var(--blue);background:var(--blue-pale);}
+.opinion-sub{font-size:11px;color:var(--gray-400);margin-top:6px;}
+
+.sig-section{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 18px;margin-top:16px;box-shadow:var(--shadow);}
+.sig-title{font-size:12px;font-weight:600;color:var(--navy);margin-bottom:14px;}
+.sig-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.sig-box{border:1px solid var(--border);border-radius:var(--radius);padding:12px;}
+.sig-box-label{font-size:10px;font-weight:600;color:var(--gray-400);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:3px;}
+.sig-box-name{font-size:13px;font-weight:600;color:var(--gray-900);margin-bottom:8px;min-height:18px;}
+.sig-canvas-wrap{border:1.5px dashed var(--gray-200);border-radius:6px;background:var(--gray-50);}
+.sig-canvas{display:block;width:100%;height:90px;cursor:crosshair;touch-action:none;border-radius:6px;}
+.sig-btns{display:flex;gap:6px;margin-top:7px;}
+.sig-btn{font-size:11px;padding:3px 10px;border-radius:20px;cursor:pointer;font-family:'Noto Sans KR',sans-serif;border:1px solid var(--border);background:var(--gray-50);color:var(--gray-500);}
+.sig-status{font-size:11px;color:var(--green);margin-top:4px;height:14px;font-weight:500;}
+
+.action-bar{display:flex;gap:8px;margin-top:16px;}
+.btn{flex:1;padding:12px;border-radius:var(--radius);border:none;font-size:13px;font-weight:600;font-family:'Noto Sans KR',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all 0.15s;}
+.btn-save{background:var(--gray-100);color:var(--gray-700);border:1px solid var(--border);}
+.btn-submit{background:var(--blue);color:#fff;box-shadow:0 2px 8px rgba(59,91,219,0.35);}
+.btn-submit:hover{background:var(--blue-light);}
+.btn-submit:disabled{opacity:0.6;cursor:not-allowed;}
+
+.hist-list{display:flex;flex-direction:column;gap:8px;}
+.hist-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px 16px;cursor:pointer;box-shadow:var(--shadow);transition:all 0.12s;}
+.hist-card:hover{border-color:var(--blue-light);}
+.hist-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.hist-dept{font-size:14px;font-weight:600;}
+.hist-date{font-size:12px;color:var(--gray-500);}
+.hist-badges{display:flex;gap:6px;flex-wrap:wrap;}
+.badge{font-size:11px;font-weight:500;padding:2px 9px;border-radius:20px;}
+.badge.g{background:var(--green-pale);color:var(--green);}
+.badge.a{background:var(--amber-pale);color:var(--amber);}
+.badge.r{background:var(--red-pale);color:var(--red);}
+.badge.d{background:var(--gray-100);color:var(--gray-500);}
+
+.stats-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:18px;}
+.stat-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:14px;text-align:center;box-shadow:var(--shadow);}
+.stat-val{font-size:28px;font-weight:700;}
+.stat-val.g{color:var(--green);}
+.stat-val.a{color:var(--amber);}
+.stat-val.r{color:var(--red);}
+.stat-lbl{font-size:11px;color:var(--gray-400);margin-top:2px;}
+
+.empty{text-align:center;padding:50px 20px;color:var(--gray-400);}
+.empty-icon{font-size:42px;margin-bottom:10px;}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--navy);color:#fff;padding:10px 20px;border-radius:30px;font-size:13px;font-weight:500;z-index:999;transition:transform 0.3s ease;pointer-events:none;white-space:nowrap;box-shadow:var(--shadow-md);}
+.toast.show{transform:translateX(-50%) translateY(0);}
+
+@media (max-width: 600px) {
+  .navbar-top{padding:0 8px;}
+  .navtab-link{padding:9px 9px;font-size:11.5px;}
+  .header { padding: 0 12px; height: 50px; top:39px;}
+  .header-title { font-size: 13px; }
+  .header-sub { display: none; }
+  .dept-select { font-size: 12px; padding: 5px 8px; max-width: 130px; }
+  .tabs { padding: 0 10px; top:89px; }
+  .tab { padding: 10px 10px; font-size: 12px; }
+  .main { padding: 12px 10px 80px; }
+  .meta-grid { grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 10px; }
+  .meta-card { padding: 8px 10px; }
+  .meta-label { font-size: 9px; }
+  .meta-card input { font-size: 12px; }
+  .hood-type-row{padding:8px 10px;}
+  .hood-type-opt{font-size:11px;padding:4px 10px;}
+  .section-header { font-size: 11px; padding: 8px 10px; }
+  .check-row { grid-template-columns: 1fr; }
+  .check-q { padding: 10px 10px 4px; }
+  .check-btns { border-left: none; border-right: none; border-top: 1px solid var(--gray-100); padding: 6px 8px; gap:4px;}
+  .cbtn { padding: 7px 2px; min-height:42px;}
+  .cbtn .sym{font-size:14px;}
+  .cbtn .lab{font-size:10px;}
+  .check-note { padding: 4px 10px 8px; }
+  .check-note input { font-size: 12px; border: 1px solid var(--gray-200); background: var(--gray-50); }
+  .velo-grid{grid-template-columns:48px 1fr 1fr 1fr;gap:4px;}
+  .velo-input{padding:8px 4px;font-size:15px;}
+  .velo-grid-head{font-size:10px;}
+  .velo-pos{font-size:11px;padding:5px 2px;}
+  .sig-grid { grid-template-columns: 1fr; gap: 10px; }
+  .sig-canvas { height: 120px; }
+  .action-bar { flex-direction: column; gap: 8px; position:sticky; bottom:0; background:#F0F2F8; padding:10px 0 calc(10px + env(safe-area-inset-bottom)); margin-top:16px; z-index:50;}
+  .btn { padding: 16px; font-size: 15px; min-height:48px; }
+  .stats-cards { grid-template-columns: repeat(2, 1fr); }
+  .hist-top { flex-direction: column; align-items: flex-start; gap: 2px; }
+}
+</style>
+</head>
+<body>
+
+<!-- 통합 네비게이션 -->
+<nav class="navbar-top">
+  <a href="index.html" class="navtab-link">🏠 홈</a>
+  <a href="round.html" class="navtab-link">📋 작업장 순회 점검</a>
+  <a href="ventilation.html" class="navtab-link active">💨 국소배기 자체검사</a>
+</nav>
+
+<header class="header">
+  <div class="header-left">
+    <div class="header-logo">💨</div>
+    <span class="header-title">국소배기장치 자체검사</span>
+    <span class="header-sub">부민병원</span>
+  </div>
+  <select class="dept-select" id="deptSel" onchange="changeDept()">
+    <option>내시경실</option>
+    <option>진단검사의학실</option>
+    <option>수술실</option>
+    <option>미생물실</option>
+    <option>병리과</option>
+  </select>
+</header>
+
+<div class="tabs">
+  <div class="tab active" id="tab-check" onclick="switchTab('check')">📋 점검</div>
+  <div class="tab" id="tab-hist" onclick="switchTab('hist')">📁 이력</div>
+  <div class="tab" id="tab-stat" onclick="switchTab('stat')">📊 통계</div>
+</div>
+
+<div class="main">
+  <div id="view-check">
+
+    <div class="meta-grid">
+      <div class="meta-card"><div class="meta-label">부서</div><input type="text" id="inDept" readonly></div>
+      <div class="meta-card"><div class="meta-label">검사일</div><input type="date" id="inDate"></div>
+      <div class="meta-card"><div class="meta-label">제조년월일</div><input type="text" id="inMfg" placeholder="2026.03" value="2026.03"></div>
+      <div class="meta-card"><div class="meta-label">확인자(보건관리자)</div><input type="text" id="inManager" placeholder="이름" value="장은선" oninput="updateSigName('Manager')"></div>
+      <div class="meta-card"><div class="meta-label">검사자(안전관리자)</div><input type="text" id="inInspector" placeholder="이름" value="장종문" oninput="updateSigName('Inspector')"></div>
+      <div class="meta-card"><div class="meta-label">후드 개수</div><input type="text" id="inHoodCount" readonly></div>
+    </div>
+
+    <div class="hood-type-row">
+      <span class="hood-type-label">후드 형식</span>
+      <div class="hood-type-opts" id="hoodTypeOpts"></div>
+    </div>
+
+    <!-- 점검 항목 4개 -->
+    <div class="section">
+      <div class="section-header"><span>🔧</span>검사 항목</div>
+      <div class="check-wrap" id="checkSection"></div>
+    </div>
+
+    <!-- 풍속 측정 -->
+    <div class="velo-section">
+      <div class="section-header"><span>💨</span>풍속 측정 (위·중간·아래)</div>
+      <div class="velo-wrap">
+        <div class="velo-criteria">📏 <b>판정 기준: 평균 풍속 0.4 m/s 이상</b> — 기준치 미달 시 빨간색 경고가 표시됩니다.</div>
+        <div id="hoodCards"></div>
+      </div>
+    </div>
+
+    <!-- 비고 -->
+    <div class="section">
+      <div class="section-header"><span>📝</span>비고</div>
+      <div class="opinion-section">
+        <textarea id="inRemark" placeholder="특이사항 입력 (예: 2026년 1월 29일 국소배기장치 위치 변경으로 인한 재측정)"></textarea>
+      </div>
+    </div>
+
+    <!-- 종합의견 -->
+    <div class="section">
+      <div class="section-header"><span>🗒️</span>종합의견</div>
+      <div class="opinion-section">
+        <textarea id="inOpinion" placeholder="종합의견 입력">평균풍속 (0.4 m/s 이상) 기준치 이상, 청결상태, 소음, 진동 양호함.
+1달 뒤 점검 예정.</textarea>
+        <div class="opinion-sub">※ 기본 의견 템플릿이 입력되어 있습니다. 필요시 수정하세요.</div>
+      </div>
+    </div>
+
+    <!-- 서명 -->
+    <div class="sig-section">
+      <div class="sig-title">✍️ 서명란</div>
+      <div class="sig-grid">
+        <div class="sig-box">
+          <div class="sig-box-label">확인자(보건관리자)</div>
+          <div class="sig-box-name" id="sigNameManager">—</div>
+          <div class="sig-canvas-wrap"><canvas class="sig-canvas" id="sigManager"></canvas></div>
+          <div class="sig-btns"><button class="sig-btn" onclick="clearSig('Manager')">지우기</button></div>
+          <div class="sig-status" id="sigStatusManager"></div>
+        </div>
+        <div class="sig-box">
+          <div class="sig-box-label">검사자(안전관리자)</div>
+          <div class="sig-box-name" id="sigNameInspector">—</div>
+          <div class="sig-canvas-wrap"><canvas class="sig-canvas" id="sigInspector"></canvas></div>
+          <div class="sig-btns"><button class="sig-btn" onclick="clearSig('Inspector')">지우기</button></div>
+          <div class="sig-status" id="sigStatusInspector"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="action-bar">
+      <button class="btn btn-save" onclick="saveRecord()">💾 저장</button>
+      <button class="btn btn-submit" id="submitBtn" onclick="submitReport()">📤 제출하기</button>
+    </div>
+  </div>
+
+  <div id="view-hist" style="display:none;"><div class="hist-list" id="histList"></div></div>
+  <div id="view-stat" style="display:none;">
+    <div class="stats-cards" id="statsCards"></div>
+    <div id="deptStats"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// 부서별 후드 구성 - 모두 1개 고정 (사용자가 + 버튼으로 추가 가능)
+var DEPT_CONFIG = {
+  '내시경실':       { defaultType: '포위식' },
+  '진단검사의학실': { defaultType: '포위식' },
+  '수술실':         { defaultType: '포위식' },
+  '미생물실':       { defaultType: '포위식' },
+  '병리과':         { defaultType: '포위식' }
+};
+
+// 검사 항목 (PDF 원본 그대로)
+var CHECK_ITEMS = [
+  { id: 'hood',  name: '1. 후드',          desc: '후드(hood)나 덕트(duct)의 마모·부식, 그 밖의 손상 여부 및 정도' },
+  { id: 'duct',  name: '2. 덕트 배기구',   desc: '덕트 배기구 연결상태 확인' },
+  { id: 'motor', name: '3. 배풍기 및 모터', desc: '송풍기와 배풍기의 소음, 진동, 청결 상태' },
+  { id: 'flow',  name: '4. 흡기 배기 상태', desc: '흡기 및 배기 상태 확인' }
+];
+
+// 검사 결과 옵션 (PDF: ○양호 / △조정 / □교환 / Φ제작 / ×폐기 / -비적용)
+var RESULT_OPTIONS = [
+  { value: 'good',    label: '양호', symbol: '○' },
+  { value: 'adjust',  label: '조정', symbol: '△' },
+  { value: 'replace', label: '교환', symbol: '□' },
+  { value: 'remake',  label: '제작', symbol: 'Φ' },
+  { value: 'discard', label: '폐기', symbol: '×' },
+  { value: 'na',      label: '비적용', symbol: '-' }
+];
+
+var HOOD_TYPES = ['포위식', '레시버식', '외부식'];
+var VELO_THRESHOLD = 0.4; // m/s
+
+// 백엔드 (작업장순회점검표와 동일 키 사용 - 필요시 변경)
+var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwF23X7MKxeadWlxaqM_NjriUlAB-XsqMOAh7ER08lVta6AkYX8NnSxXUJE5bqQrDUaQw/exec';
+var EMAILJS_SERVICE  = 'service_gwzupm6';
+var EMAILJS_TEMPLATE = 'template_oidoh4k';
+var EMAILJS_KEY      = 'qNbA0-IiBtJSP3PcU';
+
+var state = {}; // state[dept] = { results:{}, notes:{}, velocity:{hood0:{top,mid,bottom}, ...}, hoodType, remark, opinion }
+var sigData = { Manager: { signed: false, url: '' }, Inspector: { signed: false, url: '' } };
+
+function showToast(msg, dur) {
+  dur = dur || 2400;
+  var el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(function() { el.classList.remove('show'); }, dur);
+}
+
+function getKey() { return document.getElementById('deptSel').value; }
+
+function init() {
+  var today = new Date().toISOString().split('T')[0];
+  document.getElementById('inDate').value = today;
+  changeDept();
+  updateSigName('Manager');
+  updateSigName('Inspector');
+  setTimeout(function() { initCanvas('Manager'); initCanvas('Inspector'); }, 200);
+}
+
+function changeDept() {
+  var k = getKey();
+  var cfg = DEPT_CONFIG[k];
+  document.getElementById('inDept').value = k;
+
+  if (!state[k]) {
+    try {
+      var s = localStorage.getItem('vent_' + k);
+      state[k] = s ? JSON.parse(s) : { results:{}, notes:{}, velocity:{}, hoodCount:1, hoodType: cfg.defaultType, remark:'', opinion:'' };
+    } catch(e) {
+      state[k] = { results:{}, notes:{}, velocity:{}, hoodCount:1, hoodType: cfg.defaultType, remark:'', opinion:'' };
+    }
+  }
+  if (!state[k].hoodType) state[k].hoodType = cfg.defaultType;
+  if (!state[k].hoodCount || state[k].hoodCount < 1) state[k].hoodCount = 1;
+
+  document.getElementById('inHoodCount').value = state[k].hoodCount + '개';
+
+  // 저장된 비고/종합의견 복원 (없으면 기본 템플릿 유지)
+  document.getElementById('inRemark').value = state[k].remark || '';
+  if (state[k].opinion) document.getElementById('inOpinion').value = state[k].opinion;
+
+  renderHoodType();
+  renderChecks();
+  renderHoodCards();
+}
+
+function renderHoodType() {
+  var k = getKey();
+  var html = '';
+  for (var i = 0; i < HOOD_TYPES.length; i++) {
+    var t = HOOD_TYPES[i];
+    var sel = state[k].hoodType === t ? ' sel' : '';
+    html += '<div class="hood-type-opt' + sel + '" onclick="setHoodType(\'' + t + '\')">' + t + '</div>';
+  }
+  document.getElementById('hoodTypeOpts').innerHTML = html;
+}
+
+function setHoodType(t) {
+  state[getKey()].hoodType = t;
+  renderHoodType();
+}
+
+function renderChecks() {
+  var k = getKey();
+  var s = state[k];
+  var html = '';
+  for (var qi = 0; qi < CHECK_ITEMS.length; qi++) {
+    var it = CHECK_ITEMS[qi];
+    var v = s.results[it.id] || '';
+    var note = (s.notes[it.id] || '').replace(/"/g, '&quot;');
+    html += '<div class="check-row">';
+    html += '<div class="check-q"><div class="qname">' + it.name + '</div><div class="qdesc">' + it.desc + '</div></div>';
+    html += '<div class="check-btns">';
+    for (var ri = 0; ri < RESULT_OPTIONS.length; ri++) {
+      var ro = RESULT_OPTIONS[ri];
+      var s_ = (v === ro.value) ? ' sel' : '';
+      html += '<button class="cbtn ' + ro.value + s_ + '" onclick="setResult(\'' + it.id + '\',\'' + ro.value + '\',this)">'
+            + '<span class="sym">' + ro.symbol + '</span>'
+            + '<span class="lab">' + ro.label + '</span>'
+            + '</button>';
+    }
+    html += '</div>';
+    html += '<div class="check-note"><input type="text" placeholder="조치할 사항" value="' + note + '" oninput="setNote(\'' + it.id + '\',this.value)"></div>';
+    html += '</div>';
+  }
+  document.getElementById('checkSection').innerHTML = html;
+}
+
+function setResult(id, val, btn) {
+  var k = getKey();
+  if (state[k].results[id] === val) state[k].results[id] = '';
+  else state[k].results[id] = val;
+  var btns = btn.closest('.check-btns').querySelectorAll('.cbtn');
+  for (var i = 0; i < btns.length; i++) btns[i].classList.remove('sel');
+  if (state[k].results[id]) btn.classList.add('sel');
+}
+
+function setNote(id, val) { state[getKey()].notes[id] = val; }
+
+function renderHoodCards() {
+  var k = getKey();
+  var s = state[k];
+  var html = '';
+  for (var h = 0; h < s.hoodCount; h++) {
+    var hid = 'hood' + h;
+    // 9지점 구조: top/mid/bottom 각 3개 배열
+    var v = s.velocity[hid];
+    if (!v || typeof v.top === 'string') {
+      // 기존 단일값 구조에서 마이그레이션 또는 신규
+      v = { top:['','',''], mid:['','',''], bottom:['','',''] };
+      s.velocity[hid] = v;
+    }
+    html += '<div class="hood-card">';
+    html += '<div class="hood-card-title"><span class="badge-num">' + (h+1) + '</span>후드 #' + (h+1) + '</div>';
+    html += '<div class="velo-grid">';
+    // 헤더 행
+    html += '<div></div>';
+    html += '<div class="velo-grid-head">측정 1 (m/s)</div>';
+    html += '<div class="velo-grid-head">측정 2 (m/s)</div>';
+    html += '<div class="velo-grid-head">측정 3 (m/s)</div>';
+
+    // 위
+    html += '<div class="velo-pos">위</div>';
+    for (var i = 0; i < 3; i++) {
+      var val = (v.top && v.top[i]) || '';
+      html += '<input class="velo-input" type="number" step="0.01" min="0" placeholder="0.00" value="' + val + '" oninput="setVelo(\'' + hid + '\',\'top\',' + i + ',this.value)">';
+    }
+
+    // 중간
+    html += '<div class="velo-pos">중간</div>';
+    for (var i = 0; i < 3; i++) {
+      var val = (v.mid && v.mid[i]) || '';
+      html += '<input class="velo-input" type="number" step="0.01" min="0" placeholder="0.00" value="' + val + '" oninput="setVelo(\'' + hid + '\',\'mid\',' + i + ',this.value)">';
+    }
+
+    // 아래
+    html += '<div class="velo-pos">아래</div>';
+    for (var i = 0; i < 3; i++) {
+      var val = (v.bottom && v.bottom[i]) || '';
+      html += '<input class="velo-input" type="number" step="0.01" min="0" placeholder="0.00" value="' + val + '" oninput="setVelo(\'' + hid + '\',\'bottom\',' + i + ',this.value)">';
+    }
+    html += '</div>';
+
+    // 평균
+    var avg = calcAvg(v);
+    var cls = avg === null ? '' : (avg >= VELO_THRESHOLD ? ' pass' : ' fail');
+    var avgText = avg === null ? '—' : avg.toFixed(2) + ' m/s';
+    var note = avg === null ? '값을 입력하세요' : (avg >= VELO_THRESHOLD ? '✓ 기준 통과 (9지점 평균)' : '⚠ 기준 미달 (0.4 m/s 미만)');
+    html += '<div class="velo-avg' + cls + '" id="avg_' + hid + '">';
+    html += '<div><span class="velo-avg-label">평균 풍속</span><span class="velo-avg-note">' + note + '</span></div>';
+    html += '<div class="velo-avg-value">' + avgText + '</div>';
+    html += '</div>';
+
+    html += '</div>';
+  }
+
+  // 후드 추가 / 삭제 버튼
+  html += '<div class="hood-actions">';
+  html += '<button class="hood-action-btn" onclick="addHood()">+ 후드 추가</button>';
+  html += '<button class="hood-action-btn danger" onclick="removeHood()"' + (s.hoodCount <= 1 ? ' disabled' : '') + '>− 마지막 후드 삭제</button>';
+  html += '</div>';
+
+  document.getElementById('hoodCards').innerHTML = html;
+}
+
+function addHood() {
+  var k = getKey();
+  state[k].hoodCount = (state[k].hoodCount || 1) + 1;
+  document.getElementById('inHoodCount').value = state[k].hoodCount + '개';
+  renderHoodCards();
+}
+
+function removeHood() {
+  var k = getKey();
+  if (state[k].hoodCount <= 1) return;
+  delete state[k].velocity['hood' + (state[k].hoodCount - 1)];
+  state[k].hoodCount--;
+  document.getElementById('inHoodCount').value = state[k].hoodCount + '개';
+  renderHoodCards();
+}
+
+function setVelo(hid, pos, idx, val) {
+  var k = getKey();
+  if (!state[k].velocity[hid] || typeof state[k].velocity[hid].top === 'string') {
+    state[k].velocity[hid] = { top:['','',''], mid:['','',''], bottom:['','',''] };
+  }
+  state[k].velocity[hid][pos][idx] = val;
+  // 평균만 다시 그리기
+  var v = state[k].velocity[hid];
+  var avg = calcAvg(v);
+  var el = document.getElementById('avg_' + hid);
+  if (!el) return;
+  el.classList.remove('pass','fail');
+  if (avg === null) {
+    el.innerHTML = '<div><span class="velo-avg-label">평균 풍속</span><span class="velo-avg-note">값을 입력하세요</span></div><div class="velo-avg-value">—</div>';
+  } else {
+    var cls = avg >= VELO_THRESHOLD ? 'pass' : 'fail';
+    el.classList.add(cls);
+    var note = avg >= VELO_THRESHOLD ? '✓ 기준 통과 (9지점 평균)' : '⚠ 기준 미달 (0.4 m/s 미만)';
+    el.innerHTML = '<div><span class="velo-avg-label">평균 풍속</span><span class="velo-avg-note">' + note + '</span></div><div class="velo-avg-value">' + avg.toFixed(2) + ' m/s</div>';
+  }
+}
+
+function calcAvg(v) {
+  if (!v) return null;
+  var all = [];
+  var positions = ['top','mid','bottom'];
+  for (var p = 0; p < positions.length; p++) {
+    var arr = v[positions[p]];
+    if (Array.isArray(arr)) {
+      for (var i = 0; i < arr.length; i++) {
+        var n = parseFloat(arr[i]);
+        if (!isNaN(n)) all.push(n);
+      }
+    } else if (typeof arr === 'string' || typeof arr === 'number') {
+      // 기존 단일값 호환
+      var n = parseFloat(arr);
+      if (!isNaN(n)) all.push(n);
+    }
+  }
+  if (all.length === 0) return null;
+  var sum = 0;
+  for (var i = 0; i < all.length; i++) sum += all[i];
+  return sum / all.length;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('inRemark').addEventListener('input', function() { state[getKey()].remark = this.value; });
+  document.getElementById('inOpinion').addEventListener('input', function() { state[getKey()].opinion = this.value; });
+});
+
+function getSummary() {
+  var k = getKey();
+  var s = state[k];
+  var cnt = { good:0, adjust:0, replace:0, remake:0, discard:0, na:0, blank:0 };
+  for (var i = 0; i < CHECK_ITEMS.length; i++) {
+    var v = s.results[CHECK_ITEMS[i].id];
+    if (v && cnt.hasOwnProperty(v)) cnt[v]++; else cnt.blank++;
+  }
+  var avgs = [];
+  var fails = 0;
+  var hoodCount = s.hoodCount || 1;
+  for (var h = 0; h < hoodCount; h++) {
+    var hid = 'hood' + h;
+    var v = s.velocity[hid];
+    var avg = calcAvg(v);
+    avgs.push(avg);
+    if (avg !== null && avg < VELO_THRESHOLD) fails++;
+  }
+  return { results: cnt, avgs: avgs, fails: fails };
+}
+
+function initCanvas(role) {
+  var canvas = document.getElementById('sig' + role);
+  if (!canvas) return;
+  var dpr = window.devicePixelRatio || 1;
+  canvas.width = canvas.offsetWidth * dpr;
+  canvas.height = canvas.offsetHeight * dpr;
+  var ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+  ctx.strokeStyle = '#1B2A4A';
+  ctx.lineWidth = 2;
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  var drawing = false;
+
+  function getPos(e) {
+    var r = canvas.getBoundingClientRect();
+    var src = e.touches ? e.touches[0] : e;
+    return { x: src.clientX - r.left, y: src.clientY - r.top };
+  }
+
+  function autoSave() {
+    drawing = false;
+    var data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+    var hasSign = false;
+    for (var i = 3; i < data.length; i += 4) { if (data[i] > 0) { hasSign = true; break; } }
+    if (hasSign) {
+      sigData[role].signed = true;
+      sigData[role].url = canvas.toDataURL('image/png', 1.0);
+      var name = role === 'Manager'
+        ? (document.getElementById('inManager').value || '확인자')
+        : (document.getElementById('inInspector').value || '검사자');
+      document.getElementById('sigStatus' + role).textContent = '✓ ' + name + ' 서명됨';
+    }
+  }
+
+  canvas.addEventListener('mousedown', function(e) { drawing = true; var p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); });
+  canvas.addEventListener('mousemove', function(e) { if (!drawing) return; var p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); });
+  canvas.addEventListener('mouseup', autoSave);
+  canvas.addEventListener('mouseleave', function() { if (drawing) autoSave(); });
+  canvas.addEventListener('touchstart', function(e) { e.preventDefault(); drawing = true; var p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); }, { passive: false });
+  canvas.addEventListener('touchmove', function(e) { e.preventDefault(); if (!drawing) return; var p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); }, { passive: false });
+  canvas.addEventListener('touchend', function(e) { e.preventDefault(); autoSave(); });
+}
+
+function clearSig(role) {
+  var canvas = document.getElementById('sig' + role);
+  canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+  sigData[role].signed = false;
+  sigData[role].url = '';
+  document.getElementById('sigStatus' + role).textContent = '';
+}
+
+function updateSigName(role) {
+  var val = role === 'Manager'
+    ? document.getElementById('inManager').value
+    : document.getElementById('inInspector').value;
+  document.getElementById('sigName' + role).textContent = val || '—';
+}
+
+function saveRecord() {
+  var k = getKey();
+  // 비고/의견 최신화
+  state[k].remark = document.getElementById('inRemark').value;
+  state[k].opinion = document.getElementById('inOpinion').value;
+  try { localStorage.setItem('vent_' + k, JSON.stringify(state[k])); } catch(e) {}
+
+  var sum = getSummary();
+  var rec = {
+    dept: k,
+    date: document.getElementById('inDate').value,
+    mfg: document.getElementById('inMfg').value,
+    manager: document.getElementById('inManager').value,
+    inspector: document.getElementById('inInspector').value,
+    hoodType: state[k].hoodType,
+    hoodCount: state[k].hoodCount,
+    results: state[k].results,
+    notes: state[k].notes,
+    velocity: state[k].velocity,
+    remark: state[k].remark,
+    opinion: state[k].opinion,
+    summary: sum,
+    ts: Date.now()
+  };
+  var records = [];
+  try { records = JSON.parse(localStorage.getItem('vent_records') || '[]'); } catch(e) {}
+  var idx = -1;
+  for (var i = 0; i < records.length; i++) {
+    if (records[i].dept === k && records[i].date === rec.date) { idx = i; break; }
+  }
+  if (idx >= 0) records[idx] = rec; else records.unshift(rec);
+  localStorage.setItem('vent_records', JSON.stringify(records.slice(0, 200)));
+  showToast('저장 완료 ✓');
+}
+
+function buildPdfHtml() {
+  var k = getKey();
+  var date = document.getElementById('inDate').value;
+  var mfg = document.getElementById('inMfg').value || '-';
+  var manager = document.getElementById('inManager').value || '-';
+  var inspector = document.getElementById('inInspector').value || '-';
+  var remark = document.getElementById('inRemark').value || '';
+  var opinion = document.getElementById('inOpinion').value || '';
+  var s = state[k];
+  var hoodCount = s.hoodCount || 1;
+  var nowStr = new Date().toLocaleString('ko-KR');
+
+  function getSigImg(role) {
+    var canvas = document.getElementById('sig' + role);
+    if (!canvas) return '';
+    var data = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height).data;
+    for (var i = 3; i < data.length; i += 4) {
+      if (data[i] > 0) return canvas.toDataURL('image/png', 1.0);
+    }
+    return '';
+  }
+  var sigMUrl = getSigImg('Manager');
+  var sigIUrl = getSigImg('Inspector');
+
+  // 검사 항목 표
+  var itemRows = '';
+  for (var i = 0; i < CHECK_ITEMS.length; i++) {
+    var it = CHECK_ITEMS[i];
+    var v = s.results[it.id] || '';
+    var ro = null;
+    for (var j = 0; j < RESULT_OPTIONS.length; j++) {
+      if (RESULT_OPTIONS[j].value === v) { ro = RESULT_OPTIONS[j]; break; }
+    }
+    var resCell = ro ? (ro.symbol + ' ' + ro.label) : '-';
+    var note = s.notes[it.id] || '';
+    itemRows += '<tr>'
+      + '<td style="padding:7px 10px;font-size:10.5px;border:1px solid #333;background:#F3F4F6;font-weight:600;width:22%;">' + it.name + '</td>'
+      + '<td style="padding:7px 10px;font-size:10.5px;border:1px solid #333;width:46%;">' + it.desc + '</td>'
+      + '<td style="padding:7px 8px;font-size:11px;border:1px solid #333;width:12%;text-align:center;font-weight:700;">' + resCell + '</td>'
+      + '<td style="padding:7px 8px;font-size:10px;border:1px solid #333;width:20%;color:#6B7280;">' + note + '</td>'
+      + '</tr>';
+  }
+
+  // 풍속 측정 표 (9지점 = 위/중간/아래 × 3측정) - 후드별 개별 표
+  var veloTables = '';
+  for (var h = 0; h < hoodCount; h++) {
+    var v = s.velocity['hood'+h];
+    if (!v) v = { top:['','',''], mid:['','',''], bottom:['','',''] };
+    var avg = calcAvg(v);
+    var avgStr = avg === null ? '-' : avg.toFixed(2) + ' m/s';
+    var fail = avg !== null && avg < VELO_THRESHOLD;
+
+    function cell(val){ return '<td style="border:1px solid #333;padding:6px;font-size:11px;text-align:center;width:18%;">' + (val || '-') + '</td>'; }
+
+    veloTables += '<div style="margin-top:10px;font-size:11px;font-weight:600;color:#1B2A4A;">후드 #' + (h+1) + '</div>';
+    veloTables += '<table style="border-collapse:collapse;width:100%;margin-top:4px;">'
+      + '<tr><th style="background:#F3F4F6;border:1px solid #333;padding:5px;font-size:10px;width:10%;">위치</th>'
+      + '<th style="background:#F3F4F6;border:1px solid #333;padding:5px;font-size:10px;">측정 1</th>'
+      + '<th style="background:#F3F4F6;border:1px solid #333;padding:5px;font-size:10px;">측정 2</th>'
+      + '<th style="background:#F3F4F6;border:1px solid #333;padding:5px;font-size:10px;">측정 3</th>'
+      + '<th style="background:#1B2A4A;color:#fff;border:1px solid #333;padding:5px;font-size:10px;">평균 (9지점)</th></tr>'
+      + '<tr><td style="background:#F9FAFB;border:1px solid #333;padding:6px;font-size:10px;text-align:center;font-weight:600;">위</td>'
+      + cell(v.top && v.top[0]) + cell(v.top && v.top[1]) + cell(v.top && v.top[2])
+      + '<td rowspan="3" style="border:1px solid #333;padding:6px;font-size:13px;text-align:center;font-weight:700;background:' + (fail?'#FFF5F5':'#EBFBEE') + ';color:' + (fail?'#C92A2A':'#2F9E44') + ';">' + avgStr + (fail ? '<br>⚠ 미달' : '') + '</td></tr>'
+      + '<tr><td style="background:#F9FAFB;border:1px solid #333;padding:6px;font-size:10px;text-align:center;font-weight:600;">중간</td>'
+      + cell(v.mid && v.mid[0]) + cell(v.mid && v.mid[1]) + cell(v.mid && v.mid[2])
+      + '</tr>'
+      + '<tr><td style="background:#F9FAFB;border:1px solid #333;padding:6px;font-size:10px;text-align:center;font-weight:600;">아래</td>'
+      + cell(v.bottom && v.bottom[0]) + cell(v.bottom && v.bottom[1]) + cell(v.bottom && v.bottom[2])
+      + '</tr>'
+      + '</table>';
+  }
+
+  function approvalCell(label, name, sigUrl) {
+    var imgHtml = sigUrl ? '<img src="' + sigUrl + '" style="width:100%;max-height:48px;object-fit:contain;display:block;">' : '<div style="height:48px;"></div>';
+    return '<td style="border:1.5px solid #1B2A4A;text-align:center;padding:0;width:120px;vertical-align:top;">'
+      + '<div style="background:#1B2A4A;color:#fff;font-size:10px;font-weight:700;padding:4px 0;">' + label + '</div>'
+      + '<div style="font-size:11px;font-weight:600;color:#1B2A4A;padding:3px 0;border-bottom:1px solid #E5E7EB;">' + name + '</div>'
+      + '<div style="padding:3px;min-height:48px;background:#fff;">' + imgHtml + '</div>'
+      + '</td>';
+  }
+
+  var hoodTypeStr = '';
+  for (var i = 0; i < HOOD_TYPES.length; i++) {
+    hoodTypeStr += (s.hoodType === HOOD_TYPES[i] ? '■' : '□') + HOOD_TYPES[i] + '&nbsp;&nbsp;';
+  }
+
+  var html = '<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8">'
+    + '<style>'
+    + '@page{size:A4;margin:13mm;}'
+    + '*{box-sizing:border-box;margin:0;padding:0;}'
+    + 'body{font-family:Malgun Gothic,Apple SD Gothic Neo,NanumGothic,sans-serif;color:#1a1a1a;font-size:12px;background:#fff;}'
+    + '.title{text-align:center;font-size:22px;font-weight:800;color:#1B2A4A;margin-bottom:14px;letter-spacing:1px;}'
+    + 'table{border-collapse:collapse;width:100%;}'
+    + '.head-t td{border:1.5px solid #333;padding:6px 10px;font-size:11.5px;}'
+    + '.head-t .lb{background:#1B2A4A;color:#fff;font-weight:700;text-align:center;width:90px;}'
+    + '.crit{margin:8px 0;font-size:11px;text-align:center;color:#374151;font-weight:600;}'
+    + '.section-title{background:#1B2A4A;color:#fff;font-weight:700;font-size:12px;padding:6px 12px;margin-top:14px;}'
+    + '.opinion-box{border:1.5px solid #333;border-top:none;padding:10px 12px;font-size:11px;line-height:1.6;min-height:50px;white-space:pre-wrap;}'
+    + '.approve-t{margin-bottom:12px;}'
+    + '@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact;}tr{page-break-inside:avoid;}}'
+    + '</style></head><body>'
+    + '<div class="title">국소배기장치 자체검사 체크리스트</div>'
+
+    // 결재
+    + '<table class="approve-t" style="float:right;margin-bottom:8px;"><tr>'
+    + '<td style="border:1.5px solid #1B2A4A;background:#1B2A4A;color:#fff;font-size:10px;font-weight:700;padding:4px 6px;text-align:center;vertical-align:middle;writing-mode:vertical-rl;letter-spacing:2px;">결&nbsp;재</td>'
+    + approvalCell('확인자', manager, sigMUrl)
+    + approvalCell('검사자', inspector, sigIUrl)
+    + '</tr></table>'
+    + '<div style="clear:both;"></div>'
+
+    // 기본 정보
+    + '<table class="head-t">'
+    + '<tr><td class="lb">부서명</td><td>' + k + '</td><td class="lb">기계형식 후드</td><td>' + hoodTypeStr + '</td></tr>'
+    + '<tr><td class="lb">검사일</td><td>' + date + '</td><td class="lb">제조년월일</td><td>' + mfg + '</td></tr>'
+    + '<tr><td class="lb">후드 개수</td><td colspan="3">' + hoodCount + '개</td></tr>'
+    + '</table>'
+
+    + '<div class="crit">[ 검사결과 - ○ 양호, △ 조정, □ 교환, Φ 제작, × 폐기, - 비적용 ]</div>'
+
+    // 검사 항목
+    + '<table>'
+    + '<tr><th style="background:#1B2A4A;color:#fff;border:1.5px solid #1B2A4A;padding:6px;font-size:11px;width:22%;">검사구분</th>'
+    + '<th style="background:#1B2A4A;color:#fff;border:1.5px solid #1B2A4A;padding:6px;font-size:11px;">검사항목 / 판정기준 (0.4 m/s 이상)</th>'
+    + '<th style="background:#1B2A4A;color:#fff;border:1.5px solid #1B2A4A;padding:6px;font-size:11px;width:12%;">검사결과</th>'
+    + '<th style="background:#1B2A4A;color:#fff;border:1.5px solid #1B2A4A;padding:6px;font-size:11px;width:20%;">조치할 사항</th></tr>'
+    + itemRows
+    + '</table>'
+
+    // 풍속 측정 (9지점)
+    + '<div class="section-title">풍속 측정 (위/중간/아래 각 3지점, 총 9지점 평균)</div>'
+    + '<div style="border:1.5px solid #333;border-top:none;padding:10px;">' + veloTables + '</div>'
+
+    // 비고
+    + (remark ? '<div class="section-title">비고</div><div class="opinion-box">' + remark + '</div>' : '')
+
+    // 종합의견
+    + '<div class="section-title">□ 종합의견</div>'
+    + '<div class="opinion-box">' + opinion + '</div>'
+
+    // 푸터
+    + '<div style="margin-top:12px;font-size:9px;color:#9CA3AF;text-align:right;border-top:1px solid #E5E7EB;padding-top:5px;">부민병원 안전보건관리 | 출력: ' + nowStr + '</div>'
+
+    + '</body></html>';
+  return html;
+}
+
+function submitReport() {
+  var k = getKey();
+  var date = document.getElementById('inDate').value;
+  if (!date) { showToast('검사일을 입력해주세요'); return; }
+
+  // 최신 비고/의견 반영
+  state[k].remark = document.getElementById('inRemark').value;
+  state[k].opinion = document.getElementById('inOpinion').value;
+
+  var btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = '전송 중...';
+
+  var manager = document.getElementById('inManager').value || '-';
+  var inspector = document.getElementById('inInspector').value || '-';
+  var mfg = document.getElementById('inMfg').value || '-';
+  var sum = getSummary();
+  var s = state[k];
+  var hoodCount = s.hoodCount || 1;
+
+  // 메시지 생성
+  var avgList = '';
+  for (var h = 0; h < hoodCount; h++) {
+    var v = s.velocity['hood'+h];
+    var avg = calcAvg(v);
+    avgList += '\n  - 후드#' + (h+1) + ': ' + (avg === null ? '미입력' : avg.toFixed(2) + ' m/s (9지점 평균)') + (avg !== null && avg < VELO_THRESHOLD ? ' ⚠기준미달' : '');
+  }
+  var itemList = '';
+  for (var i = 0; i < CHECK_ITEMS.length; i++) {
+    var v = s.results[CHECK_ITEMS[i].id];
+    var lab = '-';
+    for (var j = 0; j < RESULT_OPTIONS.length; j++) {
+      if (RESULT_OPTIONS[j].value === v) { lab = RESULT_OPTIONS[j].symbol + ' ' + RESULT_OPTIONS[j].label; break; }
+    }
+    itemList += '\n  - ' + CHECK_ITEMS[i].name + ': ' + lab + (s.notes[CHECK_ITEMS[i].id] ? ' (' + s.notes[CHECK_ITEMS[i].id] + ')' : '');
+  }
+
+  var message = '[ 국소배기장치 자체검사 제출 ]\n\n'
+    + '부서: ' + k + '\n'
+    + '검사일: ' + date + '\n'
+    + '제조년월일: ' + mfg + '\n'
+    + '후드 형식: ' + s.hoodType + ' (후드 ' + hoodCount + '개)\n'
+    + '확인자: ' + manager + '\n'
+    + '검사자: ' + inspector + '\n\n'
+    + '[ 검사 항목 ]' + itemList + '\n\n'
+    + '[ 평균 풍속 ]' + avgList + '\n\n'
+    + (s.remark ? '[ 비고 ]\n' + s.remark + '\n\n' : '')
+    + '[ 종합의견 ]\n' + s.opinion + '\n\n'
+    + '제출: ' + new Date().toLocaleString('ko-KR');
+
+  var pdfHtml = buildPdfHtml();
+  var payload = JSON.stringify({
+    type: 'ventilation',
+    dept: k, date: date, mfg: mfg,
+    manager: manager, inspector: inspector,
+    hoodType: s.hoodType,
+    summary: sum,
+    velocity: s.velocity,
+    remark: s.remark, opinion: s.opinion,
+    pdfHtml: pdfHtml
+  });
+
+  fetch(SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: payload
+  }).then(function() {
+    emailjs.init(EMAILJS_KEY);
+    return emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE, {
+      subject: '[부민병원 국소배기장치 자체검사] ' + k + ' ' + date,
+      message: message
+    });
+  }).then(function() {
+    saveRecord();
+    showToast('제출 완료! 메일이 발송되었습니다 ✓', 3000);
+    setTimeout(function() {
+      var printWin = window.open('', '_blank', 'width=900,height=700');
+      if (printWin) {
+        printWin.document.write(pdfHtml);
+        printWin.document.close();
+        printWin.focus();
+        printWin.print();
+      }
+    }, 1000);
+  }).catch(function(err) {
+    console.error(err);
+    showToast('전송 오류. 다시 시도해주세요.');
+  }).finally(function() {
+    btn.disabled = false;
+    btn.innerHTML = '📤 제출하기';
+  });
+}
+
+function renderHist() {
+  var records = [];
+  try { records = JSON.parse(localStorage.getItem('vent_records') || '[]'); } catch(e) {}
+  var el = document.getElementById('histList');
+  if (!records.length) {
+    el.innerHTML = '<div class="empty"><div class="empty-icon">📂</div>저장된 검사 이력이 없습니다</div>';
+    return;
+  }
+  var html = '';
+  for (var i = 0; i < records.length; i++) {
+    var r = records[i];
+    var sm = r.summary || { results:{}, fails:0 };
+    var good = (sm.results && sm.results.good) || 0;
+    var fails = sm.fails || 0;
+    html += '<div class="hist-card" onclick="loadRecord(' + r.ts + ')">'
+      + '<div class="hist-top"><div class="hist-dept">💨 ' + r.dept + '</div><div class="hist-date">' + r.date + '</div></div>'
+      + '<div class="hist-badges">'
+      + '<span class="badge g">양호 ' + good + '건</span>'
+      + (fails > 0 ? '<span class="badge r">⚠ 풍속 미달 ' + fails + '개</span>' : '<span class="badge g">✓ 풍속 정상</span>')
+      + (r.manager ? '<span class="badge d">' + r.manager + '</span>' : '')
+      + '</div></div>';
+  }
+  el.innerHTML = html;
+}
+
+function loadRecord(ts) {
+  var records = [];
+  try { records = JSON.parse(localStorage.getItem('vent_records') || '[]'); } catch(e) {}
+  var r = null;
+  for (var i = 0; i < records.length; i++) { if (records[i].ts === ts) { r = records[i]; break; } }
+  if (!r) return;
+  document.getElementById('deptSel').value = r.dept;
+  document.getElementById('inDate').value = r.date;
+  document.getElementById('inMfg').value = r.mfg || '';
+  document.getElementById('inManager').value = r.manager || '';
+  document.getElementById('inInspector').value = r.inspector || '';
+  state[r.dept] = {
+    results: r.results || {}, notes: r.notes || {},
+    velocity: r.velocity || {}, hoodType: r.hoodType || '포위식',
+    hoodCount: r.hoodCount || 1,
+    remark: r.remark || '', opinion: r.opinion || ''
+  };
+  updateSigName('Manager'); updateSigName('Inspector');
+  switchTab('check');
+  document.getElementById('inDept').value = r.dept;
+  document.getElementById('inRemark').value = r.remark || '';
+  document.getElementById('inOpinion').value = r.opinion || '';
+  document.getElementById('inHoodCount').value = (r.hoodCount || 1) + '개';
+  renderHoodType();
+  renderChecks();
+  renderHoodCards();
+}
+
+function renderStat() {
+  var records = [];
+  try { records = JSON.parse(localStorage.getItem('vent_records') || '[]'); } catch(e) {}
+  var sc = document.getElementById('statsCards');
+  var ds = document.getElementById('deptStats');
+  if (!records.length) {
+    sc.innerHTML = '';
+    ds.innerHTML = '<div class="empty"><div class="empty-icon">📊</div>데이터가 없습니다</div>';
+    return;
+  }
+  var totalChecks = records.length;
+  var totalGood = 0, totalIssue = 0, totalFails = 0;
+  for (var i = 0; i < records.length; i++) {
+    var sm = records[i].summary || { results:{}, fails:0 };
+    totalGood += (sm.results && sm.results.good) || 0;
+    totalIssue += ((sm.results.adjust||0) + (sm.results.replace||0) + (sm.results.remake||0) + (sm.results.discard||0));
+    totalFails += sm.fails || 0;
+  }
+  sc.innerHTML = '<div class="stat-card"><div class="stat-val">' + totalChecks + '</div><div class="stat-lbl">총 검사 횟수</div></div>'
+    + '<div class="stat-card"><div class="stat-val g">' + totalGood + '</div><div class="stat-lbl">양호 항목</div></div>'
+    + '<div class="stat-card"><div class="stat-val a">' + totalIssue + '</div><div class="stat-lbl">조치필요 항목</div></div>'
+    + '<div class="stat-card"><div class="stat-val r">' + totalFails + '</div><div class="stat-lbl">풍속 미달 후드</div></div>';
+
+  // 부서별
+  var byDept = {};
+  for (var i = 0; i < records.length; i++) {
+    var r = records[i];
+    if (!byDept[r.dept]) byDept[r.dept] = { count:0, fails:0 };
+    byDept[r.dept].count++;
+    byDept[r.dept].fails += (r.summary && r.summary.fails) || 0;
+  }
+  var dhtml = '<div style="font-size:13px;font-weight:600;margin-bottom:10px;color:var(--navy);">부서별 검사 현황</div>';
+  var keys = Object.keys(byDept);
+  for (var i = 0; i < keys.length; i++) {
+    var dept = keys[i];
+    var d = byDept[dept];
+    dhtml += '<div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:8px;">'
+      + '<div style="display:flex;justify-content:space-between;align-items:center;">'
+      + '<span style="font-size:13px;font-weight:600;">' + dept + ' <span style="color:var(--gray-400);font-weight:400;">(' + d.count + '회)</span></span>'
+      + '<span style="font-size:12px;color:' + (d.fails > 0 ? 'var(--red)' : 'var(--green)') + ';font-weight:600;">'
+      + (d.fails > 0 ? '⚠ 풍속 미달 ' + d.fails + '회' : '✓ 정상') + '</span>'
+      + '</div></div>';
+  }
+  ds.innerHTML = dhtml;
+}
+
+function switchTab(tab) {
+  var tabs = ['check', 'hist', 'stat'];
+  for (var i = 0; i < tabs.length; i++) {
+    var t = tabs[i];
+    document.getElementById('view-' + t).style.display = t === tab ? 'block' : 'none';
+    document.getElementById('tab-' + t).className = 'tab' + (t === tab ? ' active' : '');
+  }
+  if (tab === 'hist') renderHist();
+  if (tab === 'stat') renderStat();
+}
+
+init();
+</script>
+</body>
+</html>
